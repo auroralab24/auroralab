@@ -325,6 +325,7 @@ body {
     font-family: 'Courier New', Courier, monospace; font-size: 0.8rem;
     display: flex; align-items: center; gap: 20px;
     opacity: 0.5;
+    z-index: 4;
 }
 
 .hero-scroll-indicator .line {
@@ -394,7 +395,7 @@ body {
 .spotlight-card > * { position: relative; z-index: 2; }
 
 /* Hero Metrics & Subcopy */
-.hero-subcopy { font-size: 1.5rem; line-height: 1.6; color: rgba(255,255,255,0.7); text-align: center; margin-top: -20px; margin-bottom: 80px; position: relative; z-index: 5; }
+.hero-subcopy { font-size: 1.5rem; line-height: 1.6; color: rgba(255,255,255,0.7); text-align: center; margin-top: -20px; margin-bottom: 80px; position: relative; z-index: 5; word-break: keep-all; padding: 0 5%; }
 .hero-metrics { display: flex; gap: 80px; justify-content: center; margin-top: 50px; position: relative; z-index: 5; }
 .metric-item { display: flex; flex-direction: column; align-items: center; background: none !important; border: none !important; box-shadow: none !important; backdrop-filter: none !important; }
 .metric-item .m-label { font-family: 'Courier New', Courier, monospace; color: var(--secondary); font-size: 1rem; margin-bottom: 12px; letter-spacing: 2px; }
@@ -1528,7 +1529,7 @@ body {
 .modal-scroll-area img { width: 100%; border: 1px solid var(--border); }
 
 @media (max-width: 768px) {
-    .hero-section { justify-content: flex-start; padding-top: 12vh; }
+    .hero-section { justify-content: flex-start; padding-top: 12vh; min-height: 100svh; height: auto; }
     .hero-title { font-size: 18vw; }
     .process-grid { grid-template-columns: 1fr; gap: 15px; }
     .p-step { padding: 20px 25px; text-align: left; }
@@ -1557,9 +1558,19 @@ body {
     .custom-cursor { display: none; }
 
     /* Hero Metrics Mobile */
-    .hero-metrics { gap: 30px; margin-top: 30px; }
-    .metric-item .m-label { font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 8px; }
-    .metric-item .m-value { font-size: 3rem; }
+    .hero-metrics { gap: 16px; margin-top: 30px; width: 100%; justify-content: space-around; padding: 0 16px; box-sizing: border-box; }
+    .metric-item .m-label { font-size: 0.7rem; letter-spacing: 1px; margin-bottom: 6px; }
+    .metric-item .m-value { font-size: 2.4rem; }
+
+    /* Hero scroll indicator hidden on mobile to prevent overlap */
+    .hero-scroll-indicator { display: none; }
+
+    /* Hero section mobile padding */
+    .hero-section { padding: 0 20px; box-sizing: border-box; overflow-x: hidden; }
+
+    /* Hero subcopy mobile */
+    .hero-subcopy { font-size: 1.1rem; margin-bottom: 40px; padding: 0 10px; }
+    .hero-subcopy .glow-text { font-size: 1rem; word-break: keep-all; display: block; }
 }
 
 /* Premium Aurora Glass Floating Button (Perfect Blend) */
