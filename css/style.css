@@ -1600,12 +1600,12 @@ body {
     .metric-item .m-value { font-size: 2.8rem !important; letter-spacing: -1px !important; }
     .metric-item .m-label { font-size: 0.65rem !important; margin-bottom: 2px !important; }
 
-    /* Scroll Indicator Mobile - Positioned below Metrics and Left Aligned */
+    /* Scroll Indicator Mobile - Shifted 80px Up and Left Aligned */
     .hero-scroll-indicator {
         display: flex !important;
         position: relative !important;
         bottom: auto !important;
-        margin-top: 30px !important; /* Precise 30px Gap from Metrics */
+        margin-top: -50px !important; /* Shifted up significantly (relative to previous 30px) */
         left: 5% !important; 
         transform: none !important; 
         z-index: 10 !important;
