@@ -1550,30 +1550,36 @@ body {
     * { cursor: auto !important; }
     .custom-cursor { display: none; }
 
-    .hero-subcopy { font-size: 1.05rem; margin-bottom: 20px; padding: 0 10px; }
-    .hero-subcopy .glow-text { font-size: 0.95rem; word-break: keep-all; display: block; }
-
-    /* Hero Metrics Mobile Enhanced */
-    .hero-metrics { gap: 8px; margin-top: 15px; width: 100%; justify-content: center; padding: 0 10px; box-sizing: border-box; }
-    .metric-item { flex: 1; }
-    .metric-item .m-label { font-size: 0.6rem; letter-spacing: 0.5px; margin-bottom: 2px; }
-    .metric-item .m-value { font-size: 2.8rem; letter-spacing: -1px; }
-
-    /* Space reduction below metrics */
-    .hero-section { min-height: auto; padding-bottom: 40px; }
-    .glass-panel { padding: 30px 5%; }
-    
-    /* Safari-specific Logo Transparency Fix */
+    /* Safari-specific Logo Transparency Fix (Isolated) */
     .hero-3d-logo-container, .logo-3d-stack, .logo-layer {
         background: transparent !important;
-        mix-blend-mode: plus-lighter !important;
-        -webkit-mask-image: linear-gradient(#000, #000); /* Force subgrid rendering */
+        mix-blend-mode: screen !important;
     }
 
+    .hero-subcopy { font-size: 1.05rem !important; margin-bottom: 20px !important; padding: 0 10px !important; }
+    .hero-subcopy .glow-text { font-size: 0.95rem !important; word-break: keep-all !important; display: block !important; }
+
+    /* Hero Metrics Mobile Enhanced - Strictly Isolated */
+    .hero-metrics { 
+        gap: 8px !important; 
+        margin-top: 15px !important; 
+        margin-bottom: 0 !important;
+        width: 100% !important; 
+        justify-content: center !important; 
+        padding: 0 10px !important; 
+    }
+    .metric-item .m-label { font-size: 0.6rem !important; letter-spacing: 0.5px !important; margin-bottom: 2px !important; }
+    .metric-item .m-value { font-size: 2.8rem !important; letter-spacing: -1px !important; }
+
+    /* Space reduction below metrics - 50% Reduction */
+    .hero-section { min-height: auto !important; padding-bottom: 30px !important; }
+    .glass-panel { padding: 30px 5% !important; }
+    .section-badge { margin-top: 30px !important; margin-bottom: 20px !important; }
+    
     .pf-card {
         height: auto !important;
         padding: 0 !important;
-        background: transparent !important; /* Hide card background to show only video */
+        background: transparent !important;
         border: none !important;
     }
     .pf-thumb.video-container {
@@ -1586,14 +1592,6 @@ body {
         width: 100% !important;
         height: auto !important;
         display: block;
-    }
-    
-    /* Mobile Logo Background Fix */
-    .hero-3d-logo-container {
-        mix-blend-mode: plus-lighter !important;
-    }
-    .logo-layer {
-        mix-blend-mode: screen !important;
     }
 }
 
