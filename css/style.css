@@ -1560,13 +1560,11 @@ body {
     .hero-subcopy { font-size: 1.05rem; margin-bottom: 20px; padding: 0 10px; }
     .hero-subcopy .glow-text { font-size: 0.95rem; word-break: keep-all; display: block; }
 
-    /* Mobile Logo - Premium Glassmorphism Effect */
+    /* Mobile Logo - Restored 3D Clarity with Transparency */
     .hero-3d-logo-container, .logo-3d-stack, .logo-layer {
-        mix-blend-mode: color-dodge !important; /* Bright, glowing glass look */
+        mix-blend-mode: screen !important; /* Best for transparency without losing 3D detail */
         background: transparent !important;
         opacity: 1 !important; 
-        backdrop-filter: blur(2px);
-        -webkit-backdrop-filter: blur(2px);
     }
 
     /* Hero Metrics Mobile Enhanced - Precise Spacing */
