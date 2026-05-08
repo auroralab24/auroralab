@@ -20,7 +20,9 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;900&family=Outfit:wght@300;900&display=swap" rel="stylesheet">
     <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css?v=3">
+    <link rel="stylesheet" href="css/style.css?v=15">
+    <!-- Preload Hero Logo -->
+    <link rel="preload" as="image" href="images/logo_3d.png">
 </head>
 <body>
     
@@ -69,7 +71,10 @@
         <section class="hero-section">
             <div class="hero-content">
                 <div class="hero-3d-logo-container">
-                    <div class="logo-3d-stack" id="logoStack"></div>
+                    <div class="logo-3d-stack" id="logoStack">
+                        <!-- Initial layer for immediate visibility -->
+                        <img src="images/logo_3d.png" class="logo-layer static-layer" style="opacity: 1; transform: translateZ(0px);">
+                    </div>
                 </div>
                 
                 <div class="hero-subcopy">
@@ -294,7 +299,7 @@
                 <div class="team-member spotlight-card">
                     <div class="spotlight-border"></div>
                     <div class="profile-img-wrapper">
-                        <img src="images/profile_hansol.png" alt="hansol kim">
+                        <img src="images/profile_hansol.png" alt="hansol kim" loading="lazy">
                     </div>
                     <div class="member-info">
                         <h3>hansol kim</h3>
@@ -316,7 +321,7 @@
                 <div class="team-member spotlight-card">
                     <div class="spotlight-border"></div>
                     <div class="profile-img-wrapper">
-                        <img src="images/profile_yeonwoo.png" alt="Yeon woo lee">
+                        <img src="images/profile_yeonwoo.png" alt="Yeon woo lee" loading="lazy">
                     </div>
                     <div class="member-info">
                         <h3>Yeon woo lee</h3>

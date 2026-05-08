@@ -39,20 +39,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const magneticBtns = document.querySelectorAll(".magnetic-btn, .project-card");
 
-    // 3. Spotlight Border Feature (TradingView CSS Variable Tracker)
+    // 3. Spotlight Border Feature (Optimized)
     const spotlights = document.querySelectorAll(".spotlight-card");
+    let activeSpotlights = [];
+
+    const spotObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const rect = entry.target.getBoundingClientRect();
+                entry.target._rect = rect;
+                activeSpotlights.push(entry.target);
+            } else {
+                activeSpotlights = activeSpotlights.filter(el => el !== entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    spotlights.forEach(card => spotObserver.observe(card));
+
+    window.addEventListener("scroll", () => {
+        activeSpotlights.forEach(card => {
+            card._rect = card.getBoundingClientRect();
+        });
+    }, { passive: true });
+
     window.addEventListener("mousemove", (e) => {
-        spotlights.forEach(card => {
-            const rect = card.getBoundingClientRect();
-            // Calculate mouse position relative to the card's box
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            // Set CSS variables only if mouse is relatively nearby to save performance
-            if(e.clientX >= rect.left - 200 && e.clientX <= rect.right + 200 &&
-               e.clientY >= rect.top - 200 && e.clientY <= rect.bottom + 200) {
-                card.style.setProperty('--mouse-x', `${x}px`);
-                card.style.setProperty('--mouse-y', `${y}px`);
+        // Use requestAnimationFrame to throttle CSS variable updates
+        requestAnimationFrame(() => {
+            for (let i = 0; i < activeSpotlights.length; i++) {
+                const card = activeSpotlights[i];
+                const rect = card._rect;
+                if (!rect) continue;
+
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                if(e.clientX >= rect.left - 150 && e.clientX <= rect.right + 150 &&
+                   e.clientY >= rect.top - 150 && e.clientY <= rect.bottom + 150) {
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+                }
             }
         });
     });
@@ -83,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
         duration: 1.2,
         stagger: 0.04,
         ease: "power4.out",
-        delay: 0.8 // delayed slightly to let aurora form
+        delay: 0.2 // reduced delay for faster first impression
     });
     
     // 5. Volumetric 3D Logo Logic (Enhanced LAB Depth)
@@ -91,26 +117,22 @@ document.addEventListener("DOMContentLoaded", () => {
     if (logoStack) {
         const layers = 10; 
         const imageSrc = "images/logo_3d.png";
-        logoStack.innerHTML = "";
         
-        for (let i = 0; i < layers; i++) {
+        // Loop starts from 1 because layer 0 is already in HTML for immediate visibility
+        for (let i = 1; i < layers; i++) {
             const img = document.createElement("img");
             img.src = imageSrc;
             img.className = "logo-layer";
             const z = -i * 2.5; 
             const b = 1.0 - (i * 0.005);
-            const a = 0.7 - (i * 0.02); // Reduced opacity back to 70%
+            const a = 0.7 - (i * 0.02); 
             img.style.filter = `brightness(${Math.max(0.95, b)})`;
             img.style.opacity = Math.max(0.45, a);
             img.style.transform = `translateZ(${z}px)`;
             logoStack.appendChild(img);
         }
         
-        // Entrance animation
-        gsap.fromTo(logoStack, 
-            { opacity: 0, scale: 0.98 },
-            { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }
-        );
+        // No more opacity: 0 start, so it shows up immediately
 
         // 6. Interactive 3D Tilt
         window.addEventListener('mousemove', (e) => {
@@ -176,10 +198,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 trigger: ".process-grid",
                 start: "top 80%"
             },
-            y: 50,
+            y: 30,
             opacity: 0,
-            duration: 0.8,
-            stagger: 0.2,
+            duration: 0.5,
+            stagger: 0.1,
             ease: "power3.out"
         });
     }
@@ -222,11 +244,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 trigger: ".pain-grid",
                 start: "top 95%" // Trigger slightly later
             },
-            y: 30,
+            y: 20,
             opacity: 1,
             scale: 0.98,
-            duration: 0.8,
-            stagger: 0.1,
+            duration: 0.5,
+            stagger: 0.08,
             ease: "power2.out",
             clearProps: "all" // Important: Clear inline styles after animation
         });
@@ -240,11 +262,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 trigger: ".solution-grid",
                 start: "top 95%"
             },
-            y: 30,
+            y: 20,
             opacity: 1, // Start from visible state
             scale: 0.98,
-            duration: 0.8,
-            stagger: 0.2,
+            duration: 0.5,
+            stagger: 0.1,
             ease: "power2.out",
             clearProps: "all"
         });
@@ -255,12 +277,12 @@ document.addEventListener("DOMContentLoaded", () => {
         gsap.from(pfCards, {
             scrollTrigger: {
                 trigger: ".pf-grid",
-                start: "top 95%" // Trigger earlier
+                start: "top 105%" // Trigger even before it fully enters viewport
             },
-            y: 30,
+            y: 15, // Reduced vertical movement
             opacity: 0,
-            duration: 0.8,
-            stagger: 0.1,
+            duration: 0.4, // Half the duration
+            stagger: 0.05, // Faster stagger
             ease: "power2.out",
             onComplete: () => {
                 gsap.set(pfCards, { clearProps: "all" });

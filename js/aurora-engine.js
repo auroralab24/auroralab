@@ -55,8 +55,17 @@
         }
         update(mx, my, t) {
             this.a = (0.15 + 0.85 * ((Math.sin(t * this.sp + this.ph) + 1) * 0.5)) * 0.5;
-            const dx = this.x - mx, dy = this.y - my, dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 130 && dist > 1) { const f = (1 - dist / 130) * this.repelForce; this.vx += dx / dist * f; this.vy += dy / dist * f; }
+            const dx = this.x - mx, dy = this.y - my;
+            const distSq = dx * dx + dy * dy;
+            const radius = 130;
+            const radiusSq = radius * radius;
+            
+            if (distSq < radiusSq && distSq > 1) { 
+                const dist = Math.sqrt(distSq);
+                const f = (1 - dist / radius) * this.repelForce; 
+                this.vx += dx / dist * f; 
+                this.vy += dy / dist * f; 
+            }
             this.x += this.vx; this.y += this.vy; this.vx *= 0.94; this.vy *= 0.94;
             this.x += (this.ox - this.x) * this.returnSpeed; this.y += (this.oy - this.y) * this.returnSpeed;
         }
@@ -81,8 +90,8 @@
     const mount = document.querySelector('.bg-engine');
     mount ? mount.appendChild(cvs) : document.body.prepend(cvs);
 
-    // 오로라 전용 오프스크린 (해상도 약간 상향 및 보간 개선)
-    const AW = 320, AH = 200; 
+    // 오로라 전용 오프스크린 (해상도 하향하여 연산량 대폭 감소)
+    const AW = 200, AH = 120; 
     const aCvs = document.createElement('canvas');
     aCvs.width = AW; aCvs.height = AH;
     const aCtx = aCvs.getContext('2d');
@@ -103,7 +112,7 @@
     function initStars() { 
         setSeed(100); // Unique seed for stars, reset every time
         stars.length = 0; 
-        const count = Math.floor((W * H) / 600); // Scale star count based on screen area (approx 3000 for PC)
+        const count = Math.floor((W * H) / 1500); // Scale star count (Approx 1300 for Full HD)
         for (let i = 0; i < count; i++) stars.push(new Star(W, H)); 
     }
 
@@ -219,8 +228,10 @@
     }
 
     // ── 루프 ──
+    let frameCount = 0;
     function loop() {
         t++;
+        frameCount++;
         px += (tpx - px) * 0.04;
         py += (tpy - py) * 0.04;
         const sr = (scrollY / Math.max(document.body.scrollHeight, 1)) * 8;
@@ -229,13 +240,15 @@
         ctx.fillStyle = '#000';
         ctx.fillRect(0, 0, W, H);
 
-        // 오로라 렌더링 (저해상도 픽셀)
-        renderAurora(t, sr);
+        // 오로라 렌더링 (프레임 스킵 도입: 2프레임마다 1번 계산)
+        if (frameCount % 2 === 0) {
+            renderAurora(t, sr);
+        }
 
         // 업스케일하여 메인 캔버스에 그리기 (자연 블러)
         ctx.save();
         ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
+        ctx.imageSmoothingQuality = 'low'; // 품질 낮춰서 성능 확보 (블러 효과 때문)
         ctx.globalCompositeOperation = 'lighter';
         ctx.drawImage(aCvs, 0, 0, W, H);
         ctx.restore();

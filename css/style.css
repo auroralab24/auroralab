@@ -172,7 +172,7 @@ body {
     top: 0; left: 0; width: 100%;
     height: 45px;
     background: linear-gradient(90deg, rgba(3,3,3,0.3) 0%, rgba(163,102,255,0.15) 50%, rgba(3,3,3,0.3) 100%);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(8px); /* Reduced from 15px */
     border-bottom: 1px solid rgba(255,255,255,0.05);
     display: flex;
     align-items: center;
@@ -368,8 +368,9 @@ body {
     background: rgba(255,255,255,0.02);
     border: 1px solid var(--border);
     overflow: hidden;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(5px); /* Reduced from 10px */
     transition: background 0.3s;
+    will-change: transform, background;
 }
 
 /* Magic Spotlight Border Effect utilizing mouse pos */
@@ -578,7 +579,7 @@ body {
     background: linear-gradient(135deg, rgba(163,102,255,0.15) 0%, rgba(0,255,209,0.15) 100%);
     border: 1px solid rgba(0,255,209,0.3);
     border-radius: 40px;
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(10px); /* Reduced from 20px */
     overflow: hidden;
     box-shadow: 0 20px 40px rgba(0,0,0,0.4), inset 0 0 20px rgba(0,255,209,0.05);
     gap: 20px;
@@ -675,8 +676,9 @@ body {
     display: flex;
     flex-direction: column;
     transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(8px); /* Reduced from 15px */
     overflow: hidden;
+    will-change: transform;
 }
 
 /* Card Inner Subtle Glow */
@@ -953,7 +955,7 @@ body {
 .pf-thumb {
     width: 100%;
     aspect-ratio: 4 / 5;
-    min-height: 400px; /* Ensure space is occupied on mobile/desktop before load */
+    min-height: auto; /* Remove fixed min-height to honor aspect-ratio */
     background: rgba(255,255,255,0.02);
     background-size: cover;
     background-position: center;
@@ -1509,7 +1511,14 @@ body {
 .faq-a p { font-size: 1.2rem; color: rgba(255,255,255,0.6); line-height: 1.8; }
 
 /* Footer */
-.big-email { font-family: 'Courier New', Courier, monospace; font-size: 3rem; color: var(--secondary); text-decoration: none; }
+.footer-section {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+.footer-section .section-title {
+    letter-spacing: 0.05em !important;
+}
+.big-email { font-family: 'Courier New', Courier, monospace; font-size: 3rem; color: var(--secondary); text-decoration: none; word-spacing: -0.15em; }
 
 /* Modal sharp overlay */
 .project-modal {
@@ -1591,11 +1600,12 @@ body {
     .hero-subcopy { font-size: 1.05rem; margin-bottom: 20px; padding: 0 10px; }
     .hero-subcopy .glow-text { font-size: 0.95rem; word-break: keep-all; display: block; }
 
-    /* Mobile Logo - Restored 3D Clarity with Transparency */
-    .hero-3d-logo-container, .logo-3d-stack, .logo-layer {
-        mix-blend-mode: screen !important; /* Best for transparency without losing 3D detail */
+    /* Mobile Logo - Preserving Glass Texture */
+    .logo-layer {
+        mix-blend-mode: normal !important; 
         background: transparent !important;
-        opacity: 1 !important; 
+        opacity: 0.5 !important; /* Lower opacity prevents white washout from stacked layers */
+        filter: saturate(1.2) brightness(1.1); /* Enhance glass refractivity colors */
     }
 
     /* Hero Metrics Mobile Enhanced - Precise Spacing */
@@ -1641,22 +1651,24 @@ body {
 
     /* Pricing Cards Mobile - EXTREME Slim vertical height */
     .ref-price-card { 
-        padding: 10px 15px !important; /* Bare minimum padding */
+        padding: 12px 15px !important; 
         min-height: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 2px !important;
     }
-    .prm-top { margin-bottom: 5px !important; }
-    .pc-head h3 { font-size: 1.1rem !important; margin-bottom: 2px !important; }
-    .pc-head p { margin-bottom: 5px !important; min-height: auto !important; font-size: 0.75rem !important; }
-    .pc-price { margin-bottom: 8px !important; font-size: 1.3rem !important; }
-    .pc-btn { padding: 8px !important; margin-bottom: 10px !important; font-size: 0.85rem !important; }
-    .pc-feat.top-feat { padding-bottom: 8px !important; margin-bottom: 8px !important; gap: 4px !important; }
-    .pc-feat { gap: 4px !important; }
-    .pc-feat li { font-size: 0.72rem !important; }
+    .prm-top { margin-bottom: 2px !important; }
+    .pc-head h3 { font-size: 1rem !important; margin-bottom: 0 !important; }
+    .pc-head p { margin-bottom: 4px !important; min-height: auto !important; font-size: 0.7rem !important; }
+    .pc-price { margin-bottom: 6px !important; font-size: 1.2rem !important; }
+    .pc-btn { padding: 6px !important; margin-bottom: 8px !important; font-size: 0.8rem !important; }
+    .pc-feat.top-feat { padding-bottom: 4px !important; margin-bottom: 4px !important; gap: 2px !important; }
+    .pc-feat { gap: 2px !important; }
+    .pc-feat li { font-size: 0.7rem !important; }
 
     /* Balanced spacing for hero on mobile */
     .hero-section { min-height: auto !important; padding-bottom: 0 !important; }
     .glass-panel { padding: 30px 5% !important; }
-}
 }
 
 /* Premium Aurora Glass Floating Button (Perfect Blend) */
@@ -1679,7 +1691,6 @@ body {
     font-size: 1.05rem;
     letter-spacing: -0.01em;
     z-index: 9999;
-    
     backdrop-filter: blur(20px) saturate(1.2);
     -webkit-backdrop-filter: blur(20px) saturate(1.2);
     
@@ -1690,6 +1701,12 @@ body {
         inset 0 10px 20px rgba(0, 255, 209, 0.05);
         
     transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.fab-text {
+    font-size: 1rem;
+    color: #fff;
+    white-space: nowrap;
 }
 
 .kakao-fab::before {
